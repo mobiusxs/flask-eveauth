@@ -12,9 +12,6 @@ Base = declarative_base()
 
 
 class ModelMixin:
-    id = Column(Integer, primary_key=True)
-    created = Column(DateTime(timezone=True), server_default=func.current_timestamp())
-
     @staticmethod
     def _get_db():
         return current_app.extensions['sqlalchemy'].db
