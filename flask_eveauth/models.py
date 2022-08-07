@@ -52,3 +52,12 @@ class Role(Base, ModelMixin):
     __tablename__ = 'role'
 
     name = Column(String, nullable=False)
+
+class Permission(Base, ModelMixin):
+    __tablename__ = 'permission'
+
+    id = Column(Integer, primary_key=True)
+    entity_name = Column(String, nullable=False)
+    entity_id = Column(Integer, nullable=False)
+    role_id = Column(Integer, ForeignKey('role.id'))
+    role = relationship(Role, backref=backref('entities', lazy='dynamic'), foreign_keys=[role_id])
