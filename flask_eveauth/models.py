@@ -38,9 +38,9 @@ class User(Base, ModelMixin):
     name = Column(String, nullable=False)
     character_id = Column(Integer, nullable=False)
 
-    def get(self, session_id):
+    def get(self, user_id):
         db = self._get_db()
-        return db.session.get(User, session_id)
+        return db.session.get(User, user_id)
 
     def portrait_url(self, size=512):
         if size not in [64, 128, 256, 512]:
