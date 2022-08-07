@@ -31,6 +31,7 @@ class User(Base, ModelMixin):
     __tablename__ = 'user'
 
     id = Column(String, primary_key=True, default=token_urlsafe)
+    created = Column(DateTime(timezone=False), default=func.current_timestamp())
     expires_in = Column(Integer, nullable=False)
     token_type = Column(String, nullable=False)
     refresh_token = Column(String, nullable=False)
