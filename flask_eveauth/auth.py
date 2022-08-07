@@ -1,8 +1,6 @@
 from .models import Base
-from .models import Role
-from .models import Session
-from .models import Token
 from .models import User
+from .utils import get_current_user
 from .views import routes
 
 
@@ -15,26 +13,17 @@ class Auth:
         app.extensions['eveauth'] = self
         register_blueprint(app)
         if db:
-            init_tables(db, autocommit)
-
-        @app.before_request()
-        def before_func():
-            pass
-
-        @app.teardown_request()
-        def teardown_func():
-            pass
+            init_tables(app, db, autocommit)
+        register_template_context_processors(app)
 
 
 def register_blueprint(app):
     app.register_blueprint(routes)
 
 
-def init_tables(db, autocommit):
+def init_tables(app, db, autocommit):
     if autocommit:
-        Base.metadata.create_all(db.engine)
+        with app.app_context():
+            Base.metadata.create_all(db.engine)
     else:
-        db.metadata._add_table('role', None, Role.__table__)
-        db.metadata._add_table('session', None, Session.__table__)
-        db.metadata._add_table('token', None, Token.__table__)
         db.metadata._add_table('user', None, User.__table__)
