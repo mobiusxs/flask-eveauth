@@ -1,3 +1,5 @@
+from flask import request
+
 from .models import User
 
 anonymous_session = User(
@@ -11,4 +13,9 @@ anonymous_session = User(
 
 
 def get_current_user():
-    pass
+    session_id = request.cookies.get('eveauth_session')
+    if session_id:
+        user = User().get(session_id)
+        if user:
+            return user
+    return anonymous_session
