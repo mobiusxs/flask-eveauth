@@ -1,4 +1,6 @@
 from .models import Base
+from .models import Permission
+from .models import Role
 from .models import User
 from .utils import get_current_user
 from .views import routes
@@ -26,6 +28,8 @@ def init_tables(app, db, autocommit):
         with app.app_context():
             Base.metadata.create_all(db.engine)
     else:
+        db.metadata._add_table('permission', None, Permission.__table__)
+        db.metadata._add_table('role', None, Role.__table__)
         db.metadata._add_table('user', None, User.__table__)
 
 
