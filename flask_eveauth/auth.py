@@ -27,3 +27,11 @@ def init_tables(app, db, autocommit):
             Base.metadata.create_all(db.engine)
     else:
         db.metadata._add_table('user', None, User.__table__)
+
+
+def register_template_context_processors(app):
+    @app.context_processor
+    def inject_processors():
+        return {
+            'current_user': get_current_user()
+        }
