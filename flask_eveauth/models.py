@@ -47,6 +47,9 @@ class User(Base, ModelMixin):
             size = 512
         return f'https://images.evetech.net/characters/{self.character_id}/portrait?tenant=tranquility&size={size}'
 
+    def has_role(self, role):
+        return True
+
 
 class Role(Base, ModelMixin):
     __tablename__ = 'role'
